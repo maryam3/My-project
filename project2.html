@@ -1,0 +1,328 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>pixi.js Project 2</title>
+    <style>
+        body 
+        {
+             background-image:url(http://www.service-1.org/uploads/201105/19/imgs/angry-birds-badges_128x128.jpg);
+             background-repeat:repeat repeat;
+             background-color:#000;
+             cursor:none;
+             margin-left: 25%;
+             margin-right:30%;
+             padding: 0;
+          
+        }
+
+      #Pause
+        {
+            float:left;
+            margin-left:-20%;
+        }
+
+    </style>
+    <script src="pixi.js"></script>
+    <script src="WebGLRenderer.js"></script>
+
+</head>
+<body>
+    
+
+    <div id="Pause">
+    <img id="Pause" src="pause.png" alt="Pause" height="42" width="42" onclick="Pause();">
+    <img id="image" src="music.png" alt="image" height="42" width="42" onclick="MuteMusic();">
+   
+    </div>
+
+
+    <img id="start" src="start.png" alt="start" style="margin-left:13%;position:fixed;margin-top:8%;" onclick="Game(50,800,10);">
+ 
+   <label id="Score" title="0" style="position:fixed;color:white;font-size:30px;visibility:hidden;margin-left:25%;"></label>
+   
+
+    <audio controls>
+  <source src="M2.ogg" type="audio/ogg">
+  <source src="M2.mp3" type="audio/mpeg">
+</audio>
+
+
+    <script>
+
+
+    var flag_Move = true;
+    var flag_CreateBird = true;
+    var flag_Bullet = true;
+    var Music = 1;
+    var Running = 1;
+
+function pause()
+{
+      if(Running == 1)
+     {
+
+     flag_Move = false;
+     flag_CreateBird = false;
+     flag_Bullet = false;
+     Running = 0 ;
+
+     }
+     else
+      { 
+        
+
+        flag_Move = true;
+        flag_CreateBird = true;
+        flag_Bullet = true;
+        Running = 1;
+       
+     }
+}
+
+
+function Game (BirdMoveSpeed,Speed,Increase)
+{
+     document.getElementById('Score').style.visibility="visible";
+     document.getElementById('Score').innerHTML="0";
+     document.getElementById('start').style.visibility="hidden";
+
+     // create Objects
+     var Score = 0;
+     var Lifes = 3;
+     var interactive = true;
+     var stage = new PIXI.Stage(0x000000,interactive);
+
+    // create a renderer instance
+     var renderer = PIXI.autoDetectRenderer(screen.width/2, (screen.height - 150));
+
+    // add the renderer view element to the DOM
+    document.body.appendChild(renderer.view);
+        requestAnimFrame( animate );
+
+   // create a texture from an image path
+     var texture = PIXI.Texture.fromImage("gun.png");
+     var Life = PIXI.Texture.fromImage("life.png");
+     var BulletTexture = PIXI.Texture.fromImage("bullet.png");
+     var EnemyTexture1 =  PIXI.Texture.fromImage("bird1.png");
+     var EnemyTexture2 = PIXI.Texture.fromImage("bird2.png");
+     var EnemyTexture3 = PIXI.Texture.fromImage("bird3.png");
+     var EnemyTexture4 = PIXI.Texture.fromImage("bird4.png");
+
+// create a new Sprite using the texture
+     var Gun = new PIXI.Sprite(texture);
+     var Life1 = new PIXI.Sprite(Life);
+     var Life2 = new PIXI.Sprite(Life);
+     var Life3 = new PIXI.Sprite(Life);
+     var GameOver = PIXI.Sprite.fromImage("GameOver.png");
+
+// center the sprites anchor point
+    Gun.anchor.x = 0.5;
+    Gun.anchor.y = 0.5; 
+
+// move the sprite the center of the screen
+    Gun.position.x = 200;
+    Gun.position.y = (screen.height - 250);
+    Life1.position.x = 650;
+    Life1.position.y = 10;
+    Life2.position.x = 620;
+    Life2.position.y = 10;
+    Life3.position.x = 590;
+    Life3.position.y = 10;
+
+// make the button interactive..
+    Gun.setInteractive(true);
+
+        window.onmousemove = handleMouseMove;
+        function handleMouseMove(event) 
+        {
+              event = event || window.event; 
+        }
+
+        var Bullets = [];
+        PIXI.InteractionManager.prototype.onMouseDown = function(event)
+        {
+          if(flag_Bullet)
+          {
+             var Bullet = new PIXI.Sprite(BulletTexture);
+             Bullet.position.x = Gun.position.x - 10;
+             Bullet.position.y = Gun.position.y - 50;
+             Bullets.push(Bullet);
+             stage.addChild(Bullet);
+          }
+        }
+
+        var Birds = [];
+        function addBird()
+        {
+         if(flag_CreateBird)
+         {
+                 var X = Math.floor((Math.random()*(renderer.width)));
+                 var Bird1 =  new PIXI.Sprite(EnemyTexture1);
+                 Bird1.position.x = (X - 10);
+                 Bird1.position.y = -10;
+                 Birds.push(Bird1);
+                 stage.addChild(Bird1);
+
+                   if(Score >=10) 
+                   {
+                  var Y = Math.floor((Math.random()*(renderer.width)));
+                  var Bird2 =  new PIXI.Sprite(EnemyTexture2);
+                  Bird2.position.x = (Y - 10);
+                  Bird2.position.y = -10;
+                  Birds.push(Bird2);
+                  stage.addChild(Bird2);
+                   }
+                   if(Score >=20)
+                   {
+                 var Z = Math.floor((Math.random()*(renderer.width)));
+                 var Bird3 =  new PIXI.Sprite(EnemyTexture3);
+                 Bird3.position.x = (Z - 10);
+                 Bird3.position.y = -10;
+                 Birds.push(Bird3);
+                 stage.addChild(Bird3);
+                   }
+                   if(Score >=30)
+                   {
+                 var W = Math.floor((Math.random()*(renderer.width)));
+                 var Bird4 =  new PIXI.Sprite(EnemyTexture4);
+                 Bird4.position.x = (W - 10);
+                 Bird4.position.y = -10;
+                 Birds.push(Bird4);
+                 stage.addChild(Bird4);
+                   }
+                 
+        } 
+       }
+         function Collision_With_Bullet()
+         {
+             for(var i = 0; i < Birds.length; i++) 
+                {
+                    for(var j = 0; j< Bullets.length; j++)
+                    {
+                      var Bullet_A = Bullets[j];
+                      var Bird_A = Birds[i];
+                      
+                             if((Bullet_A.position.x < (Bird_A.position.x + Bird_A.width)) 
+                                && ((Bullet_A.position.x + Bullet_A.width) > Bird_A.position.x) 
+                                && (Bullet_A.position.y < (Bird_A.position.y + Bird_A.height))
+                                && ((Bullet_A.position.y + Bullet_A.height) > Bird_A.position.y))
+                             {
+                                    Score += Increase;
+                                    document.getElementById('Score').innerHTML=Score;
+                                    Birds.splice(i, 1);
+                                    Bullets.splice(j, 1);
+                                    stage.removeChild(Bullet_A);
+                                    stage.removeChild(Bird_A);
+                            }
+                    }
+                }
+         }
+
+       function Collision_With_Gun()
+        {
+             for(var i = 0; i < Birds.length; i++)
+             {
+                      var Bird_A = Birds[i];
+
+                             if((Gun.position.x < (Bird_A.position.x + Bird_A.width)) 
+                                && ((Gun.position.x + Gun.width) > Bird_A.position.x) 
+                                && (Gun.position.y < (Bird_A.position.y + Bird_A.height)) 
+                                && ((Gun.position.y + Gun.height) > Bird_A.position.y))
+                             {
+                                         if(Lifes == 3)
+                                         {
+                                                  stage.removeChild(Life1);
+                                         }
+                                         else if(Lifes == 2)
+                                         {
+                                               stage.removeChild(Life2);
+                                         }
+                                         else if(Lifes == 1)
+                                         {
+                                              stage.removeChild(Life3);
+                                              stage.removeChild(Gun);
+                                              flag_Bullet = false;
+                                              stage.addChild(GameOver);
+                                          document.body.removeChild(renderer.view);
+                                          MuteMusic()
+                                         }
+
+                                         Lifes -= 1;
+                                         Birds.splice(i, 1);
+                                     stage.removeChild(Bird_A);
+                             }
+            }
+        }
+
+        PIXI.InteractionManager.prototype.onMouseMove = function(event)
+        {
+        if(flag_Move)
+        {
+          var positionX = (event.clientX - 300);
+          if(positionX < 60)
+          {
+             Gun.position.x = 60;
+          }
+          else if (positionX > 630)
+          {
+             Gun.position.x = 630;
+          }
+          else
+          {
+             Gun.position.x = positionX;
+          }
+        }
+
+        }
+         function MoveBird()
+         {
+            if(flag_Move)
+           {
+              for(var i =0; i < Birds.length; i++)
+            {
+              var b = Birds[i];
+              b.position.y +=10;
+            }
+           }
+         }
+
+        function ScoreResult(){
+              if(Score >= 20){
+                                   MonsterMovementSpeed = 10;
+                                  Speed = 100;
+             }
+        }
+    stage.addChild(Gun);
+        stage.addChild(Life1);
+        stage.addChild(Life2);
+        stage.addChild(Life3);
+
+
+
+        setInterval ( addBird, Speed );
+        setInterval ( MoveBird,BirdMoveSpeed);
+        setInterval ( Collision_With_Bullet ,30);
+        setInterval ( Collision_With_Gun, 30);
+
+    function animate() 
+    {
+        requestAnimFrame( animate );
+      
+
+            for(var i =0;i<Bullets.length;i++)
+            {
+              var b = Bullets[i];
+              b.position.y -=5;
+            }
+
+            ScoreResult();
+        // render the stage
+               renderer.render(stage);
+    }
+    }
+    
+    </script>
+
+    </body>
+</html>
+

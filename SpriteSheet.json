@@ -1,0 +1,45 @@
+{"frames": {
+
+"bird1.png":
+{
+	"frame": {"x":2,"y":300,"w":70,"h":50},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":1,"y":0,"w":60,"h":47},
+	"sourceSize": {"w":60,"h":47}
+},
+"bird2.png":
+{
+	"frame": {"x":0,"y":0,"w":110,"h":60},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":2,"y":1,"w":100,"h":51},
+	"sourceSize": {"w":100,"h":51}
+},
+"bird3.png":
+{
+	"frame": {"x":0,"y":0,"w":70,"h":70},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":1,"y":3,"w":62,"h":60},
+	"sourceSize": {"w":62,"h":60}
+},
+"bird4.png":
+{
+	"frame": {"x":20,"y":30,"w":70,"h":60},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":1,"y":1,"w":67,"h":57},
+    "sourceSize": {"w":67,"h":57}
+}
+},
+"meta": {
+	"app": "http://www.texturepacker.com",
+	"version": "1.0",
+    "image": "SpriteSheet.png",
+	"format": "RGBA8888",
+	"size": {"w":128,"h":128},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:9e3e5afd01ea8e418afabfbdcd724485$"
+}
+}
